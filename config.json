@@ -1,6 +1,6 @@
 {
   "debug": false,
-  "editMode": true,
+  "editMode": false,
   "canvas": {
     "width": 3840,
     "height": 2160
@@ -17,530 +17,611 @@
       "note": 21,
       "name": "A0",
       "left": 0,
-      "width": 70
+      "width": 70,
+      "hidden": true
     },
     {
       "note": 22,
       "name": "A#0",
       "left": 50,
-      "width": 40
+      "width": 40,
+      "hidden": true
     },
     {
       "note": 23,
       "name": "B0",
       "left": 70,
-      "width": 70
+      "width": 70,
+      "hidden": true
     },
     {
       "note": 24,
       "name": "C1",
-      "left": 140,
-      "width": 70
+      "left": 0,
+      "width": 22,
+      "offset": 12
     },
     {
       "note": 25,
       "name": "C#1",
-      "left": 190,
-      "width": 40
+      "left": 35,
+      "width": 44,
+      "offset": 10
     },
     {
       "note": 26,
       "name": "D1",
-      "left": 210,
-      "width": 70
+      "left": 86,
+      "width": 30,
+      "offset": 11
     },
     {
       "note": 27,
       "name": "D#1",
-      "left": 260,
-      "width": 40
+      "left": 124,
+      "width": 47,
+      "offset": 9
     },
     {
       "note": 28,
       "name": "E1",
-      "left": 280,
-      "width": 70
+      "left": 176,
+      "width": 40,
+      "offset": 8
     },
     {
       "note": 29,
       "name": "F1",
-      "left": 350,
-      "width": 70
+      "left": 223,
+      "width": 30,
+      "offset": 8
     },
     {
       "note": 30,
       "name": "F#1",
-      "left": 400,
-      "width": 40
+      "left": 261,
+      "width": 43,
+      "offset": 8
     },
     {
       "note": 31,
       "name": "G1",
-      "left": 420,
-      "width": 70
+      "left": 311,
+      "width": 27,
+      "offset": 9
     },
     {
       "note": 32,
       "name": "G#1",
-      "left": 470,
-      "width": 40
+      "left": 347,
+      "width": 46,
+      "offset": 8
     },
     {
       "note": 33,
       "name": "A1",
-      "left": 490,
-      "width": 70
+      "left": 399,
+      "width": 31,
+      "offset": 7
     },
     {
       "note": 34,
       "name": "A#1",
-      "left": 540,
-      "width": 40
+      "left": 437,
+      "width": 43,
+      "offset": 8
     },
     {
       "note": 35,
       "name": "B1",
-      "left": 560,
-      "width": 70
+      "left": 487,
+      "width": 38,
+      "offset": 7
     },
     {
       "note": 36,
       "name": "C2",
-      "left": 630,
-      "width": 70
+      "left": 534,
+      "width": 36,
+      "offset": 6
     },
     {
       "note": 37,
       "name": "C#2",
-      "left": 680,
-      "width": 40
+      "left": 575,
+      "width": 44,
+      "offset": 7
     },
     {
       "note": 38,
       "name": "D2",
-      "left": 700,
-      "width": 70
+      "left": 622,
+      "width": 38,
+      "offset": 8
     },
     {
       "note": 39,
       "name": "D#2",
-      "left": 750,
-      "width": 40
+      "left": 666,
+      "width": 45,
+      "offset": 7
     },
     {
       "note": 40,
       "name": "E2",
-      "left": 770,
-      "width": 70
+      "left": 717,
+      "width": 41,
+      "offset": 6
     },
     {
       "note": 41,
       "name": "F2",
-      "left": 840,
-      "width": 70
+      "left": 767,
+      "width": 35,
+      "offset": 5
     },
     {
       "note": 42,
       "name": "F#2",
-      "left": 890,
-      "width": 40
+      "left": 803,
+      "width": 44,
+      "offset": 6
     },
     {
       "note": 43,
       "name": "G2",
-      "left": 910,
-      "width": 70
+      "left": 853,
+      "width": 38,
+      "offset": 5
     },
     {
       "note": 44,
       "name": "G#2",
-      "left": 960,
-      "width": 40
+      "left": 893,
+      "width": 43,
+      "offset": 6
     },
     {
       "note": 45,
       "name": "A2",
-      "left": 980,
-      "width": 70
+      "left": 939,
+      "width": 42,
+      "offset": 5
     },
     {
       "note": 46,
       "name": "A#2",
-      "left": 1030,
-      "width": 40
+      "left": 979,
+      "width": 44,
+      "offset": 6
     },
     {
       "note": 47,
       "name": "B2",
-      "left": 1050,
-      "width": 70
+      "left": 1026,
+      "width": 42,
+      "offset": 4
     },
     {
       "note": 48,
       "name": "C3",
-      "left": 1120,
-      "width": 70
+      "left": 1074,
+      "width": 41,
+      "offset": 3
     },
     {
       "note": 49,
       "name": "C#3",
-      "left": 1170,
-      "width": 40
+      "left": 1115,
+      "width": 45,
+      "offset": 5
     },
     {
       "note": 50,
       "name": "D3",
-      "left": 1190,
-      "width": 70
+      "left": 1164,
+      "width": 41,
+      "offset": 6
     },
     {
       "note": 51,
       "name": "D#3",
-      "left": 1240,
-      "width": 40
+      "left": 1205,
+      "width": 47,
+      "offset": 5
     },
     {
       "note": 52,
       "name": "E3",
-      "left": 1260,
-      "width": 70
+      "left": 1255,
+      "width": 41,
+      "offset": 6
     },
     {
       "note": 53,
       "name": "F3",
-      "left": 1330,
-      "width": 70
+      "left": 1300,
+      "width": 42,
+      "offset": 3
     },
     {
       "note": 54,
       "name": "F#3",
-      "left": 1380,
-      "width": 40
+      "left": 1340,
+      "width": 46,
+      "offset": 4
     },
     {
       "note": 55,
       "name": "G3",
-      "left": 1400,
-      "width": 70
+      "left": 1385,
+      "width": 43,
+      "offset": 3
     },
     {
       "note": 56,
       "name": "G#3",
-      "left": 1450,
-      "width": 40
+      "left": 1426,
+      "width": 44,
+      "offset": 5
     },
     {
       "note": 57,
       "name": "A3",
-      "left": 1470,
-      "width": 70
+      "left": 1471,
+      "width": 44,
+      "offset": 5
     },
     {
       "note": 58,
       "name": "A#3",
-      "left": 1520,
-      "width": 40
+      "left": 1514,
+      "width": 43,
+      "offset": 5
     },
     {
       "note": 59,
       "name": "B3",
-      "left": 1540,
-      "width": 70
+      "left": 1561,
+      "width": 42,
+      "offset": 4
     },
     {
       "note": 60,
       "name": "C4",
-      "left": 1610,
-      "width": 70
+      "left": 1602,
+      "width": 48,
+      "offset": 4
     },
     {
       "note": 61,
       "name": "C#4",
-      "left": 1660,
-      "width": 40
+      "left": 1647,
+      "width": 45,
+      "offset": 5
     },
     {
       "note": 62,
       "name": "D4",
-      "left": 1680,
-      "width": 70
+      "left": 1694,
+      "width": 48,
+      "offset": 5
     },
     {
       "note": 63,
       "name": "D#4",
-      "left": 1730,
-      "width": 40
+      "left": 1735,
+      "width": 48,
+      "offset": 3
     },
     {
       "note": 64,
       "name": "E4",
-      "left": 1750,
-      "width": 70
+      "left": 1784,
+      "width": 46,
+      "offset": 5
     },
     {
       "note": 65,
       "name": "F4",
-      "left": 1820,
-      "width": 70
+      "left": 1828,
+      "width": 46,
+      "offset": 3
     },
     {
       "note": 66,
       "name": "F#4",
-      "left": 1870,
-      "width": 40
+      "left": 1872,
+      "width": 45
     },
     {
       "note": 67,
       "name": "G4",
-      "left": 1890,
-      "width": 70
+      "left": 1917,
+      "width": 44,
+      "offset": 5
     },
     {
       "note": 68,
       "name": "G#4",
-      "left": 1940,
-      "width": 40
+      "left": 1960,
+      "width": 44,
+      "offset": 3
     },
     {
       "note": 69,
       "name": "A4",
-      "left": 1960,
-      "width": 70
+      "left": 2003,
+      "width": 43,
+      "offset": 5
     },
     {
       "note": 70,
       "name": "A#4",
-      "left": 2010,
-      "width": 40
+      "left": 2046,
+      "width": 44,
+      "offset": 4
     },
     {
       "note": 71,
       "name": "B4",
-      "left": 2030,
-      "width": 70
+      "left": 2089,
+      "width": 45,
+      "offset": 2
     },
     {
       "note": 72,
       "name": "C5",
-      "left": 2100,
-      "width": 70
+      "left": 2134,
+      "width": 48,
+      "offset": 4
     },
     {
       "note": 73,
       "name": "C#5",
-      "left": 2150,
-      "width": 40
+      "left": 2179,
+      "width": 46,
+      "offset": 5
     },
     {
       "note": 74,
       "name": "D5",
-      "left": 2170,
-      "width": 70
+      "left": 2224,
+      "width": 45,
+      "offset": 4
     },
     {
       "note": 75,
       "name": "D#5",
-      "left": 2220,
-      "width": 40
+      "left": 2269,
+      "width": 47,
+      "offset": 4
     },
     {
       "note": 76,
       "name": "E5",
-      "left": 2240,
-      "width": 70
+      "left": 2310,
+      "width": 50,
+      "offset": 3
     },
     {
       "note": 77,
       "name": "F5",
-      "left": 2310,
-      "width": 70
+      "left": 2360,
+      "width": 43,
+      "offset": 5
     },
     {
       "note": 78,
       "name": "F#5",
-      "left": 2360,
-      "width": 40
+      "left": 2403,
+      "width": 45,
+      "offset": 3
     },
     {
       "note": 79,
       "name": "G5",
-      "left": 2380,
-      "width": 70
+      "left": 2445,
+      "width": 44
     },
     {
       "note": 80,
       "name": "G#5",
-      "left": 2430,
-      "width": 40
+      "left": 2486,
+      "width": 49
     },
     {
       "note": 81,
       "name": "A5",
-      "left": 2450,
-      "width": 70
+      "left": 2533,
+      "width": 44,
+      "offset": 4
     },
     {
       "note": 82,
       "name": "A#5",
-      "left": 2500,
-      "width": 40
+      "left": 2574,
+      "width": 46,
+      "offset": 2
     },
     {
       "note": 83,
       "name": "B5",
-      "left": 2520,
-      "width": 70
+      "left": 2619,
+      "width": 43,
+      "offset": 4
     },
     {
       "note": 84,
       "name": "C6",
-      "left": 2590,
-      "width": 70
+      "left": 2662,
+      "width": 45,
+      "offset": 3
     },
     {
       "note": 85,
       "name": "C#6",
-      "left": 2640,
-      "width": 40
+      "left": 2709,
+      "width": 44
     },
     {
       "note": 86,
       "name": "D6",
       "left": 2757,
-      "width": 45
+      "width": 42
     },
     {
       "note": 87,
       "name": "D#6",
-      "left": 2710,
-      "width": 40
+      "left": 2799,
+      "width": 47
     },
     {
       "note": 88,
       "name": "E6",
-      "left": 2730,
-      "width": 70
+      "left": 2847,
+      "width": 40,
+      "offset": 3
     },
     {
       "note": 89,
       "name": "F6",
-      "left": 2800,
-      "width": 70
+      "left": 2890,
+      "width": 44,
+      "offset": 2
     },
     {
       "note": 90,
       "name": "F#6",
-      "left": 2850,
-      "width": 40
+      "left": 2937,
+      "width": 46,
+      "offset": 2
     },
     {
       "note": 91,
       "name": "G6",
-      "left": 2870,
-      "width": 70
+      "left": 2985,
+      "width": 36,
+      "offset": 2
     },
     {
       "note": 92,
       "name": "G#6",
-      "left": 2920,
-      "width": 40
+      "left": 3023,
+      "width": 49,
+      "offset": 4
     },
     {
       "note": 93,
       "name": "A6",
-      "left": 2940,
-      "width": 70
+      "left": 3072,
+      "width": 35,
+      "offset": 2
     },
     {
       "note": 94,
       "name": "A#6",
-      "left": 2990,
-      "width": 40
+      "left": 3111,
+      "width": 50,
+      "offset": 4
     },
     {
       "note": 95,
       "name": "B6",
-      "left": 3010,
-      "width": 70
+      "left": 3161,
+      "width": 42,
+      "offset": 4
     },
     {
       "note": 96,
       "name": "C7",
       "left": 3203,
-      "width": 47
+      "width": 41,
+      "offset": 5
     },
     {
       "note": 97,
       "name": "C#7",
-      "left": 3130,
-      "width": 40
+      "left": 3248,
+      "width": 48,
+      "offset": 4
     },
     {
       "note": 98,
       "name": "D7",
-      "left": 3150,
-      "width": 70
+      "left": 3298,
+      "width": 38,
+      "offset": 4
     },
     {
       "note": 99,
       "name": "D#7",
-      "left": 3200,
-      "width": 40
+      "left": 3339,
+      "width": 49,
+      "offset": 5
     },
     {
       "note": 100,
       "name": "E7",
-      "left": 3220,
-      "width": 70
+      "left": 3393,
+      "width": 35,
+      "offset": 4
     },
     {
       "note": 101,
       "name": "F7",
-      "left": 3290,
-      "width": 70
+      "left": 3433,
+      "width": 38,
+      "offset": 3
     },
     {
       "note": 102,
       "name": "F#7",
-      "left": 3340,
-      "width": 40
+      "left": 3474,
+      "width": 48,
+      "offset": 4
     },
     {
       "note": 103,
       "name": "G7",
-      "left": 3360,
-      "width": 70
+      "left": 3526,
+      "width": 32,
+      "offset": 6
     },
     {
       "note": 104,
       "name": "G#7",
-      "left": 3410,
-      "width": 40
+      "left": 3560,
+      "width": 48,
+      "offset": 4
     },
     {
       "note": 105,
       "name": "A7",
-      "left": 3430,
-      "width": 70
+      "left": 3614,
+      "width": 28,
+      "offset": 5
     },
     {
       "note": 106,
       "name": "A#7",
-      "left": 3480,
-      "width": 40
+      "left": 3646,
+      "width": 48,
+      "offset": 6
     },
     {
       "note": 107,
       "name": "B7",
-      "left": 3500,
-      "width": 70
+      "left": 3702,
+      "width": 27,
+      "offset": 8
     },
     {
       "note": 108,
       "name": "C8",
-      "left": 3736,
+      "left": 3735,
       "width": 63,
-      "offset": 4
+      "offset": 7
     }
   ]
 }

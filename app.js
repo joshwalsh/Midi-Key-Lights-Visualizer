@@ -177,7 +177,7 @@ function render() {
 
   for (const note of activeNotes) {
     const key = keysByNote[note];
-    if (!key) continue;
+    if (!key || key.hidden) continue;
 
     const offset = key.offset || 0;
     const keyTop = top + offset;
