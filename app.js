@@ -7,6 +7,67 @@ let activeNotes = new Set();      // Notes physically held down
 let sustainedNotes = new Set();   // Notes held only by sustain pedal
 let keysByNote = {};
 let sustainPedalDown = false;
+
+// Particle system for sparkle effects
+let particles = [];
+const MAX_PARTICLES = 100;
+
+function spawnParticles(note) {
+  const key = keysByNote[note];
+  if (!key || key.hidden) return;
+
+  const particleConfig = config.effects?.particles;
+  if (particleConfig?.enabled === false) return;
+
+  const baseCount = particleConfig?.count ?? 2;
+  const count = Math.floor(Math.random() * baseCount) + 1; // 1 to count particles
+  const color = key.color || config.colors.active;
+  const keyTop = config.keyBounds.top + (key.offset || 0);
+
+  for (let i = 0; i < count && particles.length < MAX_PARTICLES; i++) {
+    particles.push({
+      x: key.left + Math.random() * key.width,
+      y: keyTop,
+      vx: (Math.random() - 0.5) * 0.5,  // slight horizontal drift
+      vy: -(Math.random() * 1 + 0.5) * (particleConfig?.speed ?? 1.5),  // upward
+      alpha: 1,
+      size: (Math.random() * 2 + 2) * (particleConfig?.size ?? 1),  // 2-4px base
+      color: color,
+      life: particleConfig?.lifetime ?? 1000,
+      born: performance.now()
+    });
+  }
+}
+
+function updateParticles() {
+  const now = performance.now();
+  particles = particles.filter(p => {
+    const age = now - p.born;
+    if (age > p.life) return false;
+
+    p.x += p.vx;
+    p.y += p.vy;
+    p.alpha = 1 - (age / p.life);  // fade out over lifetime
+    return true;
+  });
+}
+
+function drawParticles() {
+  for (const p of particles) {
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = hexToRgba(p.color, p.alpha);
+    ctx.fill();
+  }
+}
+
+function hexToRgba(hex, alpha) {
+  const num = parseInt(hex.replace('#', ''), 16);
+  const r = (num >> 16) & 255;
+  const g = (num >> 8) & 255;
+  const b = num & 255;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 const statusEl = document.getElementById('status');
 const midiLog = document.getElementById('midi-log');
 let logMessages = [];
@@ -178,6 +239,7 @@ function handleMIDIMessage(event) {
       selectKeyForEdit(note);
     } else {
       activeNotes.add(note);
+      spawnParticles(note);
     }
   } else if (isNoteOff) {
     const noteName = getNoteName(note);
@@ -198,6 +260,10 @@ function handleMIDIMessage(event) {
 function render() {
   // Clear canvas to transparent
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Update and draw particles
+  updateParticles();
+  drawParticles();
 
   // Draw active and sustained keys
   const { top, bottom } = config.keyBounds;
@@ -220,11 +286,24 @@ function render() {
     ctx.lineTo(left, keyBottom);
     ctx.closePath();
 
+    // Add glow effect if enabled
+    const glowConfig = config.effects?.glow;
+    if (glowConfig?.enabled !== false) {
+      ctx.save();
+      ctx.shadowColor = color;
+      ctx.shadowBlur = glowConfig?.blur ?? 20;
+      ctx.shadowOffsetY = glowConfig?.offsetY ?? -10;
+    }
+
     const gradient = ctx.createLinearGradient(0, keyTop, 0, keyBottom);
     gradient.addColorStop(0, color);
     gradient.addColorStop(1, 'transparent');
     ctx.fillStyle = gradient;
     ctx.fill();
+
+    if (glowConfig?.enabled !== false) {
+      ctx.restore();
+    }
   }
 
   // Draw sustained notes (pedal holding them) - lighter based on config

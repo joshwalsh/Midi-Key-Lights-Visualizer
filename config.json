@@ -7,11 +7,25 @@
   },
   "colors": {
     "active": "#1273f8",
-    "sustainedLighten": 0.25
+    "sustainedLighten": 0.4
   },
   "keyBounds": {
     "top": 1645,
     "bottom": 1905
+  },
+  "effects": {
+    "glow": {
+      "enabled": true,
+      "blur": 20,
+      "offsetY": -5
+    },
+    "particles": {
+      "enabled": true,
+      "speed": 4.5,
+      "size": 2,
+      "lifetime": 2000,
+      "count": 5
+    }
   },
   "keys": [
     {
@@ -32,8 +46,7 @@
       "note": 23,
       "name": "B0",
       "left": 134,
-      "width": 70,
-      "hidden": true
+      "width": 70
     },
     {
       "note": 24,
