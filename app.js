@@ -13,7 +13,7 @@ let logMessages = [];
 async function init() {
   try {
     logMIDI('Loading config.json...');
-    const response = await fetch('config.json');
+    const response = await fetch('config.json?t=' + Date.now());
     config = await response.json();
 
     // Hide debug panel if debug mode is off
@@ -22,6 +22,8 @@ async function init() {
     }
 
     logMIDI(`Config loaded: ${config.keys.length} keys defined`);
+    const c7 = config.keys.find(k => k.note === 96);
+    logMIDI(`C7 found: ${c7 ? JSON.stringify(c7.points) : 'NOT FOUND'}`);
 
     setupCanvas();
     logMIDI(`Canvas: ${canvas.width}x${canvas.height}`);
@@ -152,16 +154,15 @@ function render() {
     }
     ctx.closePath();
 
-    // Fill with key-specific color or default active color
-    ctx.fillStyle = key.color || config.colors.active;
+    // Create gradient from color at top to transparent at bottom
+    const minY = Math.min(...key.points.map(p => p[1]));
+    const maxY = Math.max(...key.points.map(p => p[1]));
+    const gradient = ctx.createLinearGradient(0, minY, 0, maxY);
+    const color = key.color || config.colors.active;
+    gradient.addColorStop(0, color);
+    gradient.addColorStop(1, 'transparent');
+    ctx.fillStyle = gradient;
     ctx.fill();
-
-    // Optional stroke
-    if (config.colors.stroke) {
-      ctx.strokeStyle = config.colors.stroke;
-      ctx.lineWidth = config.colors.strokeWidth || 2;
-      ctx.stroke();
-    }
   }
 
   requestAnimationFrame(render);
