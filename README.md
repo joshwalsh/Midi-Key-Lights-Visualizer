@@ -9,6 +9,9 @@ Built specifically for use with **Ecamm Live** web widget overlays, but works wi
 - **88-key piano support** - Full coverage from A0 (MIDI note 21) to C8 (note 108)
 - **Transparent background** - Only active keys are visible, perfect for overlays
 - **Gradient effect** - Keys fade from solid color at top to transparent at bottom
+- **Sustain pedal support** - Held notes stay lit when the sustain pedal is down, shown in a lighter color
+- **Particle effects** - Sparkles float upward from keys when pressed
+- **Glow effect** - Soft glow around active keys for added visual impact
 - **Fully customizable** - Adjust position, width, and vertical offset for each key
 - **Edit mode** - Visual editor with sliders for real-time key positioning
 - **4K canvas** - 3840x2160 resolution for crisp visuals
@@ -43,8 +46,22 @@ All settings are stored in `config.json`:
 | `canvas.width` | number | Canvas width in pixels (default: 3840) |
 | `canvas.height` | number | Canvas height in pixels (default: 2160) |
 | `colors.active` | string | Hex color for active keys (e.g., `"#1273f8"`) |
+| `colors.sustainedLighten` | number | How much to lighten sustained notes (0-1, default: 0.4) |
 | `keyBounds.top` | number | Y position of the top of all keys |
 | `keyBounds.bottom` | number | Y position of the bottom of all keys |
+
+### Effects Settings
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `effects.glow.enabled` | boolean | Enable/disable key glow effect (default: true) |
+| `effects.glow.blur` | number | Blur radius for glow in pixels (default: 20) |
+| `effects.glow.offsetY` | number | Vertical offset for glow (default: -5) |
+| `effects.particles.enabled` | boolean | Enable/disable particle effects (default: true) |
+| `effects.particles.speed` | number | Upward speed of particles (default: 4.5) |
+| `effects.particles.size` | number | Base size multiplier for particles (default: 2) |
+| `effects.particles.lifetime` | number | How long particles live in milliseconds (default: 2000) |
+| `effects.particles.count` | number | Maximum particles spawned per keypress (default: 5) |
 
 ### Per-Key Settings
 
@@ -58,6 +75,9 @@ Each key in the `keys` array has:
 | `width` | number | Width of the key in pixels |
 | `offset` | number | (Optional) Vertical offset from -25 to 25 |
 | `color` | string | (Optional) Override color for this specific key |
+| `hidden` | boolean | (Optional) Hide this key from rendering |
+| `pressedLeftOffset` | number | (Optional) Horizontal adjustment when key is pressed |
+| `pressedWidthOffset` | number | (Optional) Width adjustment when key is pressed |
 
 ### Example Configuration
 
@@ -70,11 +90,26 @@ Each key in the `keys` array has:
     "height": 2160
   },
   "colors": {
-    "active": "#1273f8"
+    "active": "#1273f8",
+    "sustainedLighten": 0.4
   },
   "keyBounds": {
     "top": 1645,
     "bottom": 1905
+  },
+  "effects": {
+    "glow": {
+      "enabled": true,
+      "blur": 20,
+      "offsetY": -5
+    },
+    "particles": {
+      "enabled": true,
+      "speed": 4.5,
+      "size": 2,
+      "lifetime": 2000,
+      "count": 5
+    }
   },
   "keys": [
     { "note": 60, "name": "C4", "left": 1610, "width": 70 },
