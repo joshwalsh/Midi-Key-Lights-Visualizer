@@ -74,11 +74,17 @@ let logMessages = [];
 
 // Edit mode state
 let editingNote = null;
+let editingKeyPhysicallyPressed = false;  // Is the key being edited currently held down?
+let selectedProperty = null;  // 'left', 'width', or 'offset' - for keyboard nudging
 const editPanel = document.getElementById('edit-panel');
 const editKeyName = document.getElementById('edit-key-name');
+const editModeState = document.getElementById('edit-mode-state');
 const editLeft = document.getElementById('edit-left');
 const editWidth = document.getElementById('edit-width');
 const editOffset = document.getElementById('edit-offset');
+const leftLabel = document.getElementById('left-label');
+const widthLabel = document.getElementById('width-label');
+const offsetLabel = document.getElementById('offset-label');
 const leftValue = document.getElementById('left-value');
 const widthValue = document.getElementById('width-value');
 const offsetValue = document.getElementById('offset-value');
@@ -232,11 +238,20 @@ function handleMIDIMessage(event) {
     logMIDI(`NOTE ON:  ${noteName} (${note}) vel=${velocity} ch=${channel} [${hasKey}] | ${hexData}`);
 
     if (config.editMode) {
-      // In edit mode, select this key for editing
-      if (editingNote !== null) {
-        activeNotes.delete(editingNote);
+      // In edit mode, check if this is the same key we're editing
+      if (note === editingNote) {
+        // Same key pressed - switch to editing pressed state
+        setEditingPressed(true);
+      } else {
+        // Different key - select it for editing
+        if (editingNote !== null) {
+          activeNotes.delete(editingNote);
+        }
+        // Set pressed state BEFORE selecting so loadEditValues gets correct state
+        editingKeyPhysicallyPressed = true;
+        selectKeyForEdit(note);
+        updateEditModeStateUI();
       }
-      selectKeyForEdit(note);
     } else {
       activeNotes.add(note);
       spawnParticles(note);
@@ -245,8 +260,10 @@ function handleMIDIMessage(event) {
     const noteName = getNoteName(note);
     logMIDI(`NOTE OFF: ${noteName} (${note}) ch=${channel} | ${hexData}`);
 
-    // Don't remove the note if we're editing it
-    if (note !== editingNote) {
+    if (config.editMode && note === editingNote) {
+      // Key released while editing - switch to editing up state
+      setEditingPressed(false);
+    } else if (note !== editingNote) {
       activeNotes.delete(note);
       // If sustain pedal is down, move to sustained notes
       if (sustainPedalDown) {
@@ -269,15 +286,20 @@ function render() {
   const { top, bottom } = config.keyBounds;
 
   // Helper to draw a key with a given color
-  function drawKey(note, color) {
+  // isPressed: whether to apply pressed offsets (for active notes)
+  function drawKey(note, color, isPressed = false) {
     const key = keysByNote[note];
     if (!key || key.hidden) return;
 
     const offset = key.offset || 0;
     const keyTop = top + offset;
     const keyBottom = bottom + offset;
-    const left = key.left;
-    const right = key.left + key.width;
+
+    // Apply pressed offsets when key is active
+    const pressedLeftOffset = isPressed ? (key.pressedLeftOffset || 0) : 0;
+    const pressedWidthOffset = isPressed ? (key.pressedWidthOffset || 0) : 0;
+    const left = key.left + pressedLeftOffset;
+    const right = key.left + pressedLeftOffset + key.width + pressedWidthOffset;
 
     ctx.beginPath();
     ctx.moveTo(left, keyTop);
@@ -313,29 +335,107 @@ function render() {
     drawKey(note, sustainedColor);
   }
 
-  // Draw active notes (physically held down) - drawn on top
+  // Draw active notes (physically held down) - drawn on top with pressed offsets
   for (const note of activeNotes) {
     const key = keysByNote[note];
     const color = key?.color || config.colors.active;
-    drawKey(note, color);
+    drawKey(note, color, true);
+  }
+
+  // In edit mode, draw the editing key if not already drawn (when key is up)
+  if (config.editMode && editingNote !== null && !activeNotes.has(editingNote) && !sustainedNotes.has(editingNote)) {
+    const key = keysByNote[editingNote];
+    const color = key?.color || config.colors.active;
+    drawKey(editingNote, color, false);  // Draw without pressed offsets
   }
 
   requestAnimationFrame(render);
 }
 
 // Edit mode functions
+function setEditingPressed(pressed) {
+  editingKeyPhysicallyPressed = pressed;
+  updateEditModeStateUI();
+  loadEditValues();
+
+  // Update activeNotes to reflect visual state
+  if (editingNote !== null) {
+    if (pressed) {
+      activeNotes.add(editingNote);
+    } else {
+      activeNotes.delete(editingNote);
+    }
+  }
+}
+
+function updateEditModeStateUI() {
+  const editModeHint = document.getElementById('edit-mode-hint');
+
+  if (editModeState) {
+    if (editingKeyPhysicallyPressed) {
+      editModeState.textContent = 'PRESSED';
+      editModeState.style.color = '#ff9500';
+      if (editModeHint) editModeHint.textContent = '(release key to edit up position)';
+      // Update labels for pressed offset mode
+      if (leftLabel) leftLabel.textContent = 'Left Offset (pressed)';
+      if (widthLabel) widthLabel.textContent = 'Width Offset (pressed)';
+      if (offsetLabel) offsetLabel.textContent = 'Vertical Offset (disabled)';
+      // Update slider ranges for offsets
+      editLeft.min = -50;
+      editLeft.max = 50;
+      editWidth.min = -25;
+      editWidth.max = 25;
+    } else {
+      editModeState.textContent = 'UP';
+      editModeState.style.color = '#00ff00';
+      if (editModeHint) editModeHint.textContent = '(hold key to edit pressed position)';
+      // Update labels for base values
+      if (leftLabel) leftLabel.textContent = 'Left (x position)';
+      if (widthLabel) widthLabel.textContent = 'Width';
+      if (offsetLabel) offsetLabel.textContent = 'Vertical Offset';
+      // Restore slider ranges for base values
+      editLeft.min = 0;
+      editLeft.max = 3840;
+      editWidth.min = 0;
+      editWidth.max = 100;
+    }
+  }
+}
+
+function loadEditValues() {
+  if (editingNote === null) return;
+
+  const key = keysByNote[editingNote];
+  if (!key) return;
+
+  if (editingKeyPhysicallyPressed) {
+    // Load pressed offset values
+    editLeft.value = key.pressedLeftOffset || 0;
+    editWidth.value = key.pressedWidthOffset || 0;
+    editOffset.value = 0;  // Not used for pressed state
+    editOffset.disabled = true;
+    leftValue.textContent = key.pressedLeftOffset || 0;
+    widthValue.textContent = key.pressedWidthOffset || 0;
+    offsetValue.textContent = '-';
+  } else {
+    // Load base (up) values
+    editLeft.value = key.left;
+    editWidth.value = key.width;
+    editOffset.value = key.offset || 0;
+    editOffset.disabled = false;
+    leftValue.textContent = key.left;
+    widthValue.textContent = key.width;
+    offsetValue.textContent = key.offset || 0;
+  }
+}
+
 function selectKeyForEdit(note) {
   const key = keysByNote[note];
   if (!key) return;
 
   editingNote = note;
   editKeyName.textContent = `${key.name} (${note})`;
-  editLeft.value = key.left;
-  editWidth.value = key.width;
-  editOffset.value = key.offset || 0;
-  leftValue.textContent = key.left;
-  widthValue.textContent = key.width;
-  offsetValue.textContent = key.offset || 0;
+  loadEditValues();
 
   // Keep this key visually active while editing
   activeNotes.add(note);
@@ -347,13 +447,24 @@ function updateKeyFromInputs() {
   const key = keysByNote[editingNote];
   if (!key) return;
 
-  key.left = parseInt(editLeft.value, 10);
-  key.width = parseInt(editWidth.value, 10);
-  const offset = parseInt(editOffset.value, 10);
-  key.offset = offset !== 0 ? offset : undefined;
-  leftValue.textContent = key.left;
-  widthValue.textContent = key.width;
-  offsetValue.textContent = offset;
+  if (editingKeyPhysicallyPressed) {
+    // Update pressed offset values
+    const pressedLeftOffset = parseInt(editLeft.value, 10);
+    const pressedWidthOffset = parseInt(editWidth.value, 10);
+    key.pressedLeftOffset = pressedLeftOffset !== 0 ? pressedLeftOffset : undefined;
+    key.pressedWidthOffset = pressedWidthOffset !== 0 ? pressedWidthOffset : undefined;
+    leftValue.textContent = pressedLeftOffset;
+    widthValue.textContent = pressedWidthOffset;
+  } else {
+    // Update base (up) values
+    key.left = parseInt(editLeft.value, 10);
+    key.width = parseInt(editWidth.value, 10);
+    const offset = parseInt(editOffset.value, 10);
+    key.offset = offset !== 0 ? offset : undefined;
+    leftValue.textContent = key.left;
+    widthValue.textContent = key.width;
+    offsetValue.textContent = offset;
+  }
 }
 
 async function saveConfig() {
@@ -385,6 +496,8 @@ function navigateKey(direction) {
 
   if (newIndex >= 0 && newIndex < notes.length) {
     activeNotes.delete(editingNote);
+    // Reset to UP mode when navigating (new key won't be pressed)
+    setEditingPressed(false);
     selectKeyForEdit(notes[newIndex]);
   }
 }
@@ -398,6 +511,75 @@ editOffset.addEventListener('input', updateKeyFromInputs);
 saveKeyBtn.addEventListener('click', saveConfig);
 prevKeyBtn.addEventListener('click', () => navigateKey(-1));
 nextKeyBtn.addEventListener('click', () => navigateKey(1));
+
+// Property selection for keyboard nudging
+function selectProperty(prop) {
+  selectedProperty = prop;
+  // Update visual selection
+  leftLabel.classList.toggle('selected', prop === 'left');
+  widthLabel.classList.toggle('selected', prop === 'width');
+  offsetLabel.classList.toggle('selected', prop === 'offset');
+}
+
+function clearPropertySelection() {
+  selectedProperty = null;
+  leftLabel.classList.remove('selected');
+  widthLabel.classList.remove('selected');
+  offsetLabel.classList.remove('selected');
+}
+
+function nudgeSelectedProperty(delta) {
+  if (!selectedProperty || editingNote === null) return;
+
+  let input, min, max;
+  switch (selectedProperty) {
+    case 'left':
+      input = editLeft;
+      break;
+    case 'width':
+      input = editWidth;
+      break;
+    case 'offset':
+      if (editOffset.disabled) return;  // Can't nudge disabled offset
+      input = editOffset;
+      break;
+    default:
+      return;
+  }
+
+  min = parseInt(input.min, 10);
+  max = parseInt(input.max, 10);
+  const currentValue = parseInt(input.value, 10);
+  const newValue = Math.max(min, Math.min(max, currentValue + delta));
+
+  if (newValue !== currentValue) {
+    input.value = newValue;
+    updateKeyFromInputs();
+  }
+}
+
+// Label click handlers
+leftLabel.addEventListener('click', () => selectProperty('left'));
+widthLabel.addEventListener('click', () => selectProperty('width'));
+offsetLabel.addEventListener('click', () => selectProperty('offset'));
+
+// Keyboard handler for nudging
+document.addEventListener('keydown', (e) => {
+  if (!config?.editMode || !selectedProperty) return;
+
+  // Arrow keys for nudging
+  if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+    e.preventDefault();
+    const direction = e.key === 'ArrowRight' ? 1 : -1;
+    const multiplier = e.shiftKey ? 10 : 1;
+    nudgeSelectedProperty(direction * multiplier);
+  }
+
+  // Escape to clear selection
+  if (e.key === 'Escape') {
+    clearPropertySelection();
+  }
+});
 
 // Start the app when DOM is ready
 document.addEventListener('DOMContentLoaded', init);

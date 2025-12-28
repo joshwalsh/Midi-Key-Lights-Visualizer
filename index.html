@@ -90,6 +90,17 @@
       display: block;
       margin: 20px 0 10px;
       font-size: 28px;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 4px;
+      transition: background-color 0.15s;
+    }
+    #edit-panel label:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    #edit-panel label.selected {
+      background-color: rgba(18, 115, 248, 0.4);
+      outline: 2px solid #1273f8;
     }
     #edit-panel input[type="range"] {
       width: 100%;
@@ -114,6 +125,14 @@
       font-size: 28px;
       cursor: pointer;
     }
+    #edit-mode-indicator {
+      margin-bottom: 30px;
+      font-size: 32px;
+    }
+    #edit-panel input[type="range"]:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body>
@@ -124,15 +143,22 @@
   </div>
   <div id="edit-panel">
     <h3>Edit Key: <span id="edit-key-name">-</span></h3>
-    <label>Left (x position)</label>
+    <div id="edit-mode-indicator">
+      Mode: <span id="edit-mode-state" style="font-weight: bold; color: #00ff00;">UP</span>
+      <span id="edit-mode-hint" style="font-size: 20px; color: #888;">(hold key to edit pressed position)</span>
+    </div>
+    <div id="nudge-hint" style="font-size: 18px; color: #666; margin-bottom: 10px;">
+      Click a label to select, then use ←/→ to nudge (hold Shift for ×10)
+    </div>
+    <label id="left-label">Left (x position)</label>
     <input type="range" id="edit-left" min="0" max="3840" step="1">
     <span class="value-display" id="left-value">0</span>
 
-    <label>Width</label>
+    <label id="width-label">Width</label>
     <input type="range" id="edit-width" min="0" max="100" step="1">
     <span class="value-display" id="width-value">0</span>
 
-    <label>Vertical Offset</label>
+    <label id="offset-label">Vertical Offset</label>
     <input type="range" id="edit-offset" min="-25" max="25" step="1">
     <span class="value-display" id="offset-value">0</span>
     <div class="buttons">
