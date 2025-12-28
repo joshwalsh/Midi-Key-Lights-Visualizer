@@ -61,6 +61,56 @@
       white-space: pre-wrap;
       word-break: break-all;
     }
+    #edit-panel {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.95);
+      color: #fff;
+      font-family: monospace;
+      font-size: 32px;
+      padding: 40px 60px;
+      border-radius: 16px;
+      z-index: 1000;
+      display: none;
+      text-align: center;
+    }
+    #edit-panel.active {
+      display: block;
+    }
+    #edit-panel h3 {
+      margin: 0 0 30px 0;
+      color: #1273f8;
+      font-size: 48px;
+    }
+    #edit-panel label {
+      display: block;
+      margin: 20px 0 10px;
+      font-size: 28px;
+    }
+    #edit-panel input[type="range"] {
+      width: 400px;
+      height: 40px;
+      cursor: pointer;
+    }
+    #edit-panel .value-display {
+      font-size: 48px;
+      margin-left: 20px;
+      min-width: 120px;
+      display: inline-block;
+    }
+    #edit-panel .buttons {
+      margin-top: 30px;
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+    #edit-panel button {
+      padding: 15px 30px;
+      font-size: 28px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -68,6 +118,25 @@
   <div id="debug">
     <h3>MIDI Debug</h3>
     <div id="midi-log">Waiting for MIDI data...</div>
+  </div>
+  <div id="edit-panel">
+    <h3>Edit Key: <span id="edit-key-name">-</span></h3>
+    <label>Left (x position)</label>
+    <input type="range" id="edit-left" min="0" max="3840" step="1">
+    <span class="value-display" id="left-value">0</span>
+
+    <label>Width</label>
+    <input type="range" id="edit-width" min="0" max="100" step="1">
+    <span class="value-display" id="width-value">0</span>
+
+    <label>Vertical Offset</label>
+    <input type="range" id="edit-offset" min="-25" max="25" step="1">
+    <span class="value-display" id="offset-value">0</span>
+    <div class="buttons">
+      <button id="save-key">Save</button>
+      <button id="prev-key">← Prev</button>
+      <button id="next-key">Next →</button>
+    </div>
   </div>
   <canvas id="keyboard"></canvas>
   <script src="app.js"></script>

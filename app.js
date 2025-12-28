@@ -9,6 +9,20 @@ const statusEl = document.getElementById('status');
 const midiLog = document.getElementById('midi-log');
 let logMessages = [];
 
+// Edit mode state
+let editingNote = null;
+const editPanel = document.getElementById('edit-panel');
+const editKeyName = document.getElementById('edit-key-name');
+const editLeft = document.getElementById('edit-left');
+const editWidth = document.getElementById('edit-width');
+const editOffset = document.getElementById('edit-offset');
+const leftValue = document.getElementById('left-value');
+const widthValue = document.getElementById('width-value');
+const offsetValue = document.getElementById('offset-value');
+const saveKeyBtn = document.getElementById('save-key');
+const prevKeyBtn = document.getElementById('prev-key');
+const nextKeyBtn = document.getElementById('next-key');
+
 // Load configuration and initialize
 async function init() {
   try {
@@ -21,9 +35,12 @@ async function init() {
       document.getElementById('debug').style.display = 'none';
     }
 
+    // Show edit panel if edit mode is on
+    if (config.editMode) {
+      editPanel.classList.add('active');
+    }
+
     logMIDI(`Config loaded: ${config.keys.length} keys defined`);
-    const c7 = config.keys.find(k => k.note === 96);
-    logMIDI(`C7 found: ${c7 ? JSON.stringify(c7.points) : 'NOT FOUND'}`);
 
     setupCanvas();
     logMIDI(`Canvas: ${canvas.width}x${canvas.height}`);
@@ -129,11 +146,24 @@ function handleMIDIMessage(event) {
     const noteName = getNoteName(note);
     const hasKey = keysByNote[note] ? 'OK' : 'NO KEY';
     logMIDI(`NOTE ON:  ${noteName} (${note}) vel=${velocity} ch=${channel} [${hasKey}] | ${hexData}`);
-    activeNotes.add(note);
+
+    if (config.editMode) {
+      // In edit mode, select this key for editing
+      if (editingNote !== null) {
+        activeNotes.delete(editingNote);
+      }
+      selectKeyForEdit(note);
+    } else {
+      activeNotes.add(note);
+    }
   } else if (isNoteOff) {
     const noteName = getNoteName(note);
     logMIDI(`NOTE OFF: ${noteName} (${note}) ch=${channel} | ${hexData}`);
-    activeNotes.delete(note);
+
+    // Don't remove the note if we're editing it
+    if (note !== editingNote) {
+      activeNotes.delete(note);
+    }
   }
 }
 
@@ -143,21 +173,27 @@ function render() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Draw only active keys
+  const { top, bottom } = config.keyBounds;
+
   for (const note of activeNotes) {
     const key = keysByNote[note];
-    if (!key || !key.points || key.points.length < 3) continue;
+    if (!key) continue;
+
+    const offset = key.offset || 0;
+    const keyTop = top + offset;
+    const keyBottom = bottom + offset;
+    const left = key.left;
+    const right = key.left + key.width;
 
     ctx.beginPath();
-    ctx.moveTo(key.points[0][0], key.points[0][1]);
-    for (let i = 1; i < key.points.length; i++) {
-      ctx.lineTo(key.points[i][0], key.points[i][1]);
-    }
+    ctx.moveTo(left, keyTop);
+    ctx.lineTo(right, keyTop);
+    ctx.lineTo(right, keyBottom);
+    ctx.lineTo(left, keyBottom);
     ctx.closePath();
 
     // Create gradient from color at top to transparent at bottom
-    const minY = Math.min(...key.points.map(p => p[1]));
-    const maxY = Math.max(...key.points.map(p => p[1]));
-    const gradient = ctx.createLinearGradient(0, minY, 0, maxY);
+    const gradient = ctx.createLinearGradient(0, keyTop, 0, keyBottom);
     const color = key.color || config.colors.active;
     gradient.addColorStop(0, color);
     gradient.addColorStop(1, 'transparent');
@@ -167,6 +203,82 @@ function render() {
 
   requestAnimationFrame(render);
 }
+
+// Edit mode functions
+function selectKeyForEdit(note) {
+  const key = keysByNote[note];
+  if (!key) return;
+
+  editingNote = note;
+  editKeyName.textContent = `${key.name} (${note})`;
+  editLeft.value = key.left;
+  editWidth.value = key.width;
+  editOffset.value = key.offset || 0;
+  leftValue.textContent = key.left;
+  widthValue.textContent = key.width;
+  offsetValue.textContent = key.offset || 0;
+
+  // Keep this key visually active while editing
+  activeNotes.add(note);
+}
+
+function updateKeyFromInputs() {
+  if (editingNote === null) return;
+
+  const key = keysByNote[editingNote];
+  if (!key) return;
+
+  key.left = parseInt(editLeft.value, 10);
+  key.width = parseInt(editWidth.value, 10);
+  const offset = parseInt(editOffset.value, 10);
+  key.offset = offset !== 0 ? offset : undefined;
+  leftValue.textContent = key.left;
+  widthValue.textContent = key.width;
+  offsetValue.textContent = offset;
+}
+
+async function saveConfig() {
+  updateKeyFromInputs();
+
+  try {
+    const response = await fetch('/save-config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(config)
+    });
+
+    if (response.ok) {
+      logMIDI('Config saved!');
+    } else {
+      logMIDI('Failed to save config');
+    }
+  } catch (err) {
+    logMIDI(`Save error: ${err.message}`);
+  }
+}
+
+function navigateKey(direction) {
+  if (editingNote === null) return;
+
+  const notes = config.keys.map(k => k.note).sort((a, b) => a - b);
+  const currentIndex = notes.indexOf(editingNote);
+  const newIndex = currentIndex + direction;
+
+  if (newIndex >= 0 && newIndex < notes.length) {
+    activeNotes.delete(editingNote);
+    selectKeyForEdit(notes[newIndex]);
+  }
+}
+
+// Live update while editing
+editLeft.addEventListener('input', updateKeyFromInputs);
+editWidth.addEventListener('input', updateKeyFromInputs);
+editOffset.addEventListener('input', updateKeyFromInputs);
+
+// Button handlers
+saveKeyBtn.addEventListener('click', saveConfig);
+prevKeyBtn.addEventListener('click', () => navigateKey(-1));
+nextKeyBtn.addEventListener('click', () => navigateKey(1));
 
 // Start the app when DOM is ready
 document.addEventListener('DOMContentLoaded', init);
