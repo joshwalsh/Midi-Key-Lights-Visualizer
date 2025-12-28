@@ -17,610 +17,610 @@
     {
       "note": 21,
       "name": "A0",
-      "left": 0,
+      "left": 64,
       "width": 70,
       "hidden": true
     },
     {
       "note": 22,
       "name": "A#0",
-      "left": 50,
+      "left": 114,
       "width": 40,
       "hidden": true
     },
     {
       "note": 23,
       "name": "B0",
-      "left": 70,
+      "left": 134,
       "width": 70,
       "hidden": true
     },
     {
       "note": 24,
       "name": "C1",
-      "left": 0,
+      "left": 64,
       "width": 22,
       "offset": 12
     },
     {
       "note": 25,
       "name": "C#1",
-      "left": 35,
+      "left": 99,
       "width": 44,
       "offset": 10
     },
     {
       "note": 26,
       "name": "D1",
-      "left": 86,
+      "left": 150,
       "width": 30,
       "offset": 11
     },
     {
       "note": 27,
       "name": "D#1",
-      "left": 124,
+      "left": 188,
       "width": 47,
       "offset": 9
     },
     {
       "note": 28,
       "name": "E1",
-      "left": 176,
+      "left": 240,
       "width": 40,
       "offset": 8
     },
     {
       "note": 29,
       "name": "F1",
-      "left": 223,
+      "left": 287,
       "width": 30,
       "offset": 8
     },
     {
       "note": 30,
       "name": "F#1",
-      "left": 261,
+      "left": 325,
       "width": 43,
       "offset": 8
     },
     {
       "note": 31,
       "name": "G1",
-      "left": 311,
+      "left": 375,
       "width": 27,
       "offset": 9
     },
     {
       "note": 32,
       "name": "G#1",
-      "left": 347,
+      "left": 411,
       "width": 46,
       "offset": 8
     },
     {
       "note": 33,
       "name": "A1",
-      "left": 399,
+      "left": 463,
       "width": 31,
       "offset": 7
     },
     {
       "note": 34,
       "name": "A#1",
-      "left": 437,
+      "left": 501,
       "width": 43,
       "offset": 8
     },
     {
       "note": 35,
       "name": "B1",
-      "left": 487,
+      "left": 551,
       "width": 38,
       "offset": 7
     },
     {
       "note": 36,
       "name": "C2",
-      "left": 534,
+      "left": 598,
       "width": 36,
       "offset": 6
     },
     {
       "note": 37,
       "name": "C#2",
-      "left": 575,
+      "left": 639,
       "width": 44,
       "offset": 7
     },
     {
       "note": 38,
       "name": "D2",
-      "left": 622,
+      "left": 686,
       "width": 38,
       "offset": 8
     },
     {
       "note": 39,
       "name": "D#2",
-      "left": 666,
+      "left": 730,
       "width": 45,
       "offset": 7
     },
     {
       "note": 40,
       "name": "E2",
-      "left": 717,
+      "left": 781,
       "width": 41,
       "offset": 6
     },
     {
       "note": 41,
       "name": "F2",
-      "left": 767,
+      "left": 831,
       "width": 35,
       "offset": 5
     },
     {
       "note": 42,
       "name": "F#2",
-      "left": 803,
+      "left": 867,
       "width": 44,
       "offset": 6
     },
     {
       "note": 43,
       "name": "G2",
-      "left": 853,
+      "left": 917,
       "width": 38,
       "offset": 5
     },
     {
       "note": 44,
       "name": "G#2",
-      "left": 893,
+      "left": 957,
       "width": 43,
       "offset": 6
     },
     {
       "note": 45,
       "name": "A2",
-      "left": 939,
+      "left": 1003,
       "width": 42,
       "offset": 5
     },
     {
       "note": 46,
       "name": "A#2",
-      "left": 979,
+      "left": 1043,
       "width": 44,
       "offset": 6
     },
     {
       "note": 47,
       "name": "B2",
-      "left": 1026,
+      "left": 1090,
       "width": 42,
       "offset": 4
     },
     {
       "note": 48,
       "name": "C3",
-      "left": 1074,
+      "left": 1138,
       "width": 41,
       "offset": 3
     },
     {
       "note": 49,
       "name": "C#3",
-      "left": 1115,
+      "left": 1179,
       "width": 45,
       "offset": 5
     },
     {
       "note": 50,
       "name": "D3",
-      "left": 1164,
+      "left": 1228,
       "width": 41,
       "offset": 6
     },
     {
       "note": 51,
       "name": "D#3",
-      "left": 1205,
+      "left": 1269,
       "width": 47,
       "offset": 5
     },
     {
       "note": 52,
       "name": "E3",
-      "left": 1255,
+      "left": 1319,
       "width": 41,
       "offset": 6
     },
     {
       "note": 53,
       "name": "F3",
-      "left": 1300,
+      "left": 1364,
       "width": 42,
       "offset": 3
     },
     {
       "note": 54,
       "name": "F#3",
-      "left": 1340,
+      "left": 1404,
       "width": 46,
       "offset": 4
     },
     {
       "note": 55,
       "name": "G3",
-      "left": 1385,
+      "left": 1449,
       "width": 43,
       "offset": 3
     },
     {
       "note": 56,
       "name": "G#3",
-      "left": 1426,
+      "left": 1490,
       "width": 44,
       "offset": 5
     },
     {
       "note": 57,
       "name": "A3",
-      "left": 1471,
+      "left": 1535,
       "width": 44,
       "offset": 5
     },
     {
       "note": 58,
       "name": "A#3",
-      "left": 1514,
+      "left": 1578,
       "width": 43,
       "offset": 5
     },
     {
       "note": 59,
       "name": "B3",
-      "left": 1561,
+      "left": 1625,
       "width": 42,
       "offset": 4
     },
     {
       "note": 60,
       "name": "C4",
-      "left": 1602,
+      "left": 1666,
       "width": 48,
       "offset": 4
     },
     {
       "note": 61,
       "name": "C#4",
-      "left": 1647,
+      "left": 1711,
       "width": 45,
       "offset": 5
     },
     {
       "note": 62,
       "name": "D4",
-      "left": 1694,
+      "left": 1758,
       "width": 48,
       "offset": 5
     },
     {
       "note": 63,
       "name": "D#4",
-      "left": 1735,
+      "left": 1799,
       "width": 48,
       "offset": 3
     },
     {
       "note": 64,
       "name": "E4",
-      "left": 1784,
+      "left": 1848,
       "width": 46,
       "offset": 5
     },
     {
       "note": 65,
       "name": "F4",
-      "left": 1828,
+      "left": 1892,
       "width": 46,
       "offset": 3
     },
     {
       "note": 66,
       "name": "F#4",
-      "left": 1872,
+      "left": 1936,
       "width": 45
     },
     {
       "note": 67,
       "name": "G4",
-      "left": 1917,
+      "left": 1981,
       "width": 44,
       "offset": 5
     },
     {
       "note": 68,
       "name": "G#4",
-      "left": 1960,
+      "left": 2024,
       "width": 44,
       "offset": 3
     },
     {
       "note": 69,
       "name": "A4",
-      "left": 2003,
+      "left": 2067,
       "width": 43,
       "offset": 5
     },
     {
       "note": 70,
       "name": "A#4",
-      "left": 2046,
+      "left": 2110,
       "width": 44,
       "offset": 4
     },
     {
       "note": 71,
       "name": "B4",
-      "left": 2089,
+      "left": 2153,
       "width": 45,
       "offset": 2
     },
     {
       "note": 72,
       "name": "C5",
-      "left": 2134,
+      "left": 2198,
       "width": 48,
       "offset": 4
     },
     {
       "note": 73,
       "name": "C#5",
-      "left": 2179,
+      "left": 2243,
       "width": 46,
       "offset": 5
     },
     {
       "note": 74,
       "name": "D5",
-      "left": 2224,
+      "left": 2288,
       "width": 45,
       "offset": 4
     },
     {
       "note": 75,
       "name": "D#5",
-      "left": 2269,
+      "left": 2333,
       "width": 47,
       "offset": 4
     },
     {
       "note": 76,
       "name": "E5",
-      "left": 2310,
+      "left": 2374,
       "width": 50,
       "offset": 3
     },
     {
       "note": 77,
       "name": "F5",
-      "left": 2360,
+      "left": 2424,
       "width": 43,
       "offset": 5
     },
     {
       "note": 78,
       "name": "F#5",
-      "left": 2403,
+      "left": 2467,
       "width": 45,
       "offset": 3
     },
     {
       "note": 79,
       "name": "G5",
-      "left": 2445,
+      "left": 2509,
       "width": 44
     },
     {
       "note": 80,
       "name": "G#5",
-      "left": 2486,
+      "left": 2550,
       "width": 49
     },
     {
       "note": 81,
       "name": "A5",
-      "left": 2533,
+      "left": 2597,
       "width": 44,
       "offset": 4
     },
     {
       "note": 82,
       "name": "A#5",
-      "left": 2574,
+      "left": 2638,
       "width": 46,
       "offset": 2
     },
     {
       "note": 83,
       "name": "B5",
-      "left": 2619,
+      "left": 2683,
       "width": 43,
       "offset": 4
     },
     {
       "note": 84,
       "name": "C6",
-      "left": 2662,
+      "left": 2726,
       "width": 45,
       "offset": 3
     },
     {
       "note": 85,
       "name": "C#6",
-      "left": 2709,
+      "left": 2773,
       "width": 44
     },
     {
       "note": 86,
       "name": "D6",
-      "left": 2757,
+      "left": 2821,
       "width": 42
     },
     {
       "note": 87,
       "name": "D#6",
-      "left": 2799,
+      "left": 2863,
       "width": 47
     },
     {
       "note": 88,
       "name": "E6",
-      "left": 2847,
+      "left": 2911,
       "width": 40,
       "offset": 3
     },
     {
       "note": 89,
       "name": "F6",
-      "left": 2890,
+      "left": 2954,
       "width": 44,
       "offset": 2
     },
     {
       "note": 90,
       "name": "F#6",
-      "left": 2937,
+      "left": 3001,
       "width": 46,
       "offset": 2
     },
     {
       "note": 91,
       "name": "G6",
-      "left": 2985,
+      "left": 3049,
       "width": 36,
       "offset": 2
     },
     {
       "note": 92,
       "name": "G#6",
-      "left": 3023,
+      "left": 3087,
       "width": 49,
       "offset": 4
     },
     {
       "note": 93,
       "name": "A6",
-      "left": 3072,
+      "left": 3136,
       "width": 35,
       "offset": 2
     },
     {
       "note": 94,
       "name": "A#6",
-      "left": 3111,
+      "left": 3175,
       "width": 50,
       "offset": 4
     },
     {
       "note": 95,
       "name": "B6",
-      "left": 3161,
+      "left": 3225,
       "width": 42,
       "offset": 4
     },
     {
       "note": 96,
       "name": "C7",
-      "left": 3203,
+      "left": 3267,
       "width": 41,
       "offset": 5
     },
     {
       "note": 97,
       "name": "C#7",
-      "left": 3248,
+      "left": 3312,
       "width": 48,
       "offset": 4
     },
     {
       "note": 98,
       "name": "D7",
-      "left": 3298,
+      "left": 3362,
       "width": 38,
       "offset": 4
     },
     {
       "note": 99,
       "name": "D#7",
-      "left": 3339,
+      "left": 3403,
       "width": 49,
       "offset": 5
     },
     {
       "note": 100,
       "name": "E7",
-      "left": 3393,
+      "left": 3457,
       "width": 35,
       "offset": 4
     },
     {
       "note": 101,
       "name": "F7",
-      "left": 3433,
+      "left": 3497,
       "width": 38,
       "offset": 3
     },
     {
       "note": 102,
       "name": "F#7",
-      "left": 3474,
+      "left": 3538,
       "width": 48,
       "offset": 4
     },
     {
       "note": 103,
       "name": "G7",
-      "left": 3526,
+      "left": 3590,
       "width": 32,
       "offset": 6
     },
     {
       "note": 104,
       "name": "G#7",
-      "left": 3560,
+      "left": 3624,
       "width": 48,
       "offset": 4
     },
     {
       "note": 105,
       "name": "A7",
-      "left": 3614,
+      "left": 3678,
       "width": 28,
       "offset": 5
     },
     {
       "note": 106,
       "name": "A#7",
-      "left": 3646,
+      "left": 3710,
       "width": 48,
       "offset": 6
     },
     {
       "note": 107,
       "name": "B7",
-      "left": 3702,
+      "left": 3766,
       "width": 27,
       "offset": 8
     },
     {
       "note": 108,
       "name": "C8",
-      "left": 3735,
+      "left": 3799,
       "width": 63,
       "offset": 7
     }
