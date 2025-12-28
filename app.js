@@ -3,8 +3,10 @@
 let config = null;
 let canvas = null;
 let ctx = null;
-let activeNotes = new Set();
+let activeNotes = new Set();      // Notes physically held down
+let sustainedNotes = new Set();   // Notes held only by sustain pedal
 let keysByNote = {};
+let sustainPedalDown = false;
 const statusEl = document.getElementById('status');
 const midiLog = document.getElementById('midi-log');
 let logMessages = [];
@@ -120,6 +122,15 @@ function logMIDI(message) {
   midiLog.textContent = logMessages.join('\n');
 }
 
+// Lighten a hex color by a percentage (0-1)
+function lightenColor(hex, percent) {
+  const num = parseInt(hex.replace('#', ''), 16);
+  const r = Math.min(255, Math.floor((num >> 16) + (255 - (num >> 16)) * percent));
+  const g = Math.min(255, Math.floor(((num >> 8) & 0x00FF) + (255 - ((num >> 8) & 0x00FF)) * percent));
+  const b = Math.min(255, Math.floor((num & 0x0000FF) + (255 - (num & 0x0000FF)) * percent));
+  return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
+}
+
 // Get note name from MIDI number
 function getNoteName(note) {
   const names = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -142,6 +153,18 @@ function handleMIDIMessage(event) {
   const isNoteOn = msgType === 0x90 && velocity > 0;
   const isNoteOff = msgType === 0x80 || (msgType === 0x90 && velocity === 0);
 
+  // Check for sustain pedal (CC 64)
+  const isCC = (msgType === 0xB0);
+  if (isCC && note === 64) {
+    sustainPedalDown = velocity >= 64;
+    logMIDI(`SUSTAIN: ${sustainPedalDown ? 'DOWN' : 'UP'} | ${hexData}`);
+    // When pedal is released, clear all sustained notes
+    if (!sustainPedalDown) {
+      sustainedNotes.clear();
+    }
+    return;
+  }
+
   if (isNoteOn) {
     const noteName = getNoteName(note);
     const hasKey = keysByNote[note] ? 'OK' : 'NO KEY';
@@ -163,6 +186,10 @@ function handleMIDIMessage(event) {
     // Don't remove the note if we're editing it
     if (note !== editingNote) {
       activeNotes.delete(note);
+      // If sustain pedal is down, move to sustained notes
+      if (sustainPedalDown) {
+        sustainedNotes.add(note);
+      }
     }
   }
 }
@@ -172,12 +199,13 @@ function render() {
   // Clear canvas to transparent
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw only active keys
+  // Draw active and sustained keys
   const { top, bottom } = config.keyBounds;
 
-  for (const note of activeNotes) {
+  // Helper to draw a key with a given color
+  function drawKey(note, color) {
     const key = keysByNote[note];
-    if (!key || key.hidden) continue;
+    if (!key || key.hidden) return;
 
     const offset = key.offset || 0;
     const keyTop = top + offset;
@@ -192,13 +220,25 @@ function render() {
     ctx.lineTo(left, keyBottom);
     ctx.closePath();
 
-    // Create gradient from color at top to transparent at bottom
     const gradient = ctx.createLinearGradient(0, keyTop, 0, keyBottom);
-    const color = key.color || config.colors.active;
     gradient.addColorStop(0, color);
     gradient.addColorStop(1, 'transparent');
     ctx.fillStyle = gradient;
     ctx.fill();
+  }
+
+  // Draw sustained notes (pedal holding them) - lighter based on config
+  const lightenAmount = config.colors.sustainedLighten ?? 0.15;
+  const sustainedColor = lightenColor(config.colors.active, lightenAmount);
+  for (const note of sustainedNotes) {
+    drawKey(note, sustainedColor);
+  }
+
+  // Draw active notes (physically held down) - drawn on top
+  for (const note of activeNotes) {
+    const key = keysByNote[note];
+    const color = key?.color || config.colors.active;
+    drawKey(note, color);
   }
 
   requestAnimationFrame(render);

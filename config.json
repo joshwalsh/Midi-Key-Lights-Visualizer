@@ -6,7 +6,8 @@
     "height": 2160
   },
   "colors": {
-    "active": "#1273f8"
+    "active": "#1273f8",
+    "sustainedLighten": 0.25
   },
   "keyBounds": {
     "top": 1645,
